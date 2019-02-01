@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <ethash/ethash.h>
+#include "ethash.h"
 
 #ifdef __cplusplus
 extern "C" {

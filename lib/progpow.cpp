@@ -2,13 +2,13 @@
 // Copyright 2018 Pawel Bylica.
 // Licensed under the Apache License, Version 2.0. See the LICENSE file.
 
-#include <ethash/progpow.hpp>
+#include "progpow.hpp"
 
 #include "bit_manipulation.h"
 #include "endianness.hpp"
 #include "ethash-internal.hpp"
 #include "kiss99.hpp"
-#include <ethash/keccak.hpp>
+#include "keccak.hpp"
 
 #include <array>
 
@@ -358,3 +358,19 @@ search_result search(const epoch_context_full& context, int block_number,
 }
 
 }  // namespace progpow
+
+
+extern "C" {
+using namespace ethash;
+void progpow_hash(result* res, epoch_context* context, int block_number, hash256* header_hash,  uint64_t nonce) 
+{
+   *res = progpow::hash(*context, block_number, *header_hash, nonce);
+}
+
+void progpow_search_light(search_result* res, epoch_context* context, int block_number,
+   hash256* header_hash, hash256* boundary, uint64_t start_nonce, size_t iterations)
+{
+  *res = progpow::search_light(*context, block_number, *header_hash, *boundary, start_nonce, iterations);
+}
+
+}  // extern "C"

@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include <ethash/ethash.hpp>
+#include "ethash.hpp"
 
 #if _WIN32
 

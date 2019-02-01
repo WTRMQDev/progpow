@@ -8,8 +8,8 @@
 #include "endianness.hpp"
 #include "primes.h"
 #include "support/attributes.h"
-#include <ethash/keccak.hpp>
-#include <ethash/progpow.hpp>
+#include "keccak.hpp"
+#include "progpow.hpp"
 
 #include <cassert>
 #include <cstdlib>
@@ -436,6 +436,30 @@ void ethash_destroy_epoch_context(epoch_context* context) noexcept
 {
     context->~epoch_context();
     std::free(context);
+}
+
+void ethash_hash(result* res, epoch_context* context, hash256* header_hash, uint64_t nonce) noexcept
+{
+    const hash512 seed = hash_seed(*header_hash, nonce);
+    const hash256 mix_hash = hash_kernel(*context, seed, calculate_dataset_item_1024);
+    res->final_hash =hash_final(seed, mix_hash);
+    res->mix_hash = mix_hash;
+}
+
+void ethash_search_light_till_result(result* res, epoch_context* context, hash256* header_hash,
+    hash256* boundary, uint64_t* start_nonce) noexcept
+{
+    result r;
+    for (; ; *start_nonce++)
+    {
+        ethash_hash(&r, context, header_hash, *start_nonce);
+        if (is_less_or_equal(r.final_hash, *boundary))
+            {
+             res->mix_hash = r.mix_hash; 
+             res->final_hash = r.final_hash;
+             return;
+            }
+    }
 }
 
 }  // extern "C"

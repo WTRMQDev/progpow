@@ -3,7 +3,7 @@
  * Licensed under the Apache License, Version 2.0. See the LICENSE file.
  */
 
-#include <ethash/keccak.h>
+#include "keccak.h"
 
 #include "support/attributes.h"
 #include <string.h>
