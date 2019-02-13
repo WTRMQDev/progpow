@@ -1,0 +1,43 @@
+sudo: false
+language: python
+python:
+- '3.3'
+- '3.4'
+- '3.5'
+env:
+  global:
+  - PYPI_USERNAME=WTRMQDev
+  - secure: "KRn88aGaGB25w0ImyhBPpqQwpLSoZ9uA5b0dbjIdC63MLy/M9gDbs3MXjlqosGqHgvwjmy4QIN0yZ5O/EyqPZgDTHGbXhNbodHsecaUoYdNYrkbjFqk5lfVYrxmIcif9qcd/vQiP3DSzsYHPga0+VeuqcJkEYDy/hb8ZXpTvVSgYRUKbds1plZnisjP8IYWqsrDWeDbwwQ1hNxbWnRLbJ/P3IBsMWqAVnM5H/voVxQVwCIPOyYGWqsR5L+zn7Fy4EGtsDLr+rUHDJdR3fWNUGZshC955VhjcsLRza/8QIiM32cjNQnLbfJwteP8f94OfuIBJ3JJsNH8AHkxAh77485Z7Ff4eDWL9u0y0SCA1nEtS/B2ganhNrjMl8pm32+yKKji+jxgMU3Zgc8hd/D7W3Gzj4OC5DHpeeNg+e/PthZeKvK9Ww/vn5SkZHu6AnzoGalWrebKqb+YTIFjSKITXFvHWEHDMg//szk/+tBONPwtlataW0F1T/K1dDDI7KD+2oW9SNrv8ZVzLdO5uZ2iVn1WIxKxXW1nDwPwxRIW8fuouQU4mSAzTf7h7MDt0t8zsH4ArfmE1mgDpBg0I79+MYVnExPjFBFIKrafCvG6YyjBROoQBchvEArqYP/xn4v+2l1KWUb+ZItpiibhXANGeH2gHaWuvip+XS6ZuFCTobhQ="
+matrix:
+  include:
+  - os: linux
+    language: python
+    python: 3.5
+    sudo: required
+    services:
+    - docker
+    env:
+    - BUNDLED=1
+    - BUILD_LINUX_WHEELS=1
+addons:
+  apt:
+    packages:
+    - git
+    - libtool
+    - autoconf
+    - automake
+    - pkg-config
+    - libffi-dev
+    - libgmp-dev
+before_install:
+- source .travis/install.sh
+install:
+- python setup.py bdist_wheel
+after_success:
+- coveralls
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: .travis/deploy.sh
+  on:
+    tags: true
