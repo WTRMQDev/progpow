@@ -43,8 +43,4 @@ void ethash_search_light_till_result(result* res, epoch_context* context, hash25
 void progpow_hash(result* res, epoch_context* context, int block_number, hash256* header_hash,  uint64_t nonce); 
 void progpow_search_light(search_result* res, epoch_context* context, int block_number,
    hash256* header_hash, hash256* boundary, uint64_t start_nonce, size_t iterations);
-void hash256_serialize(hash256* h, char* output);
-void hash256_parse(hash256* h, char* input);
-void result_serialize(result * r, char* output);
-void epoch_context_parse(epoch_context* ctx, int* epoch_number, int* light_cache_num_items, int* full_dataset_num_items);
 
