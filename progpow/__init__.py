@@ -1,7 +1,7 @@
-from ._libsecp256k1 import ffi, lib
+from ._libprogpow import ffi, lib
 from collections import OrderedDict
 
-def epoch_num(block_num):
+def get_epoch_num(block_num):
   return block_num//lib.ETHASH_EPOCH_LENGTH
 
 def bytes_to_hash256(bts):
@@ -33,7 +33,7 @@ class ProgPowHandler:
   def hash(self, header_height, header_hash, nonce):
     hh = bytes_to_hash256(header_hash)
     result = ffi.new("result*")
-    epoch_num = epoch_num(header_height)
+    epoch_num = get_epoch_num(header_height)
     self._check_context(epoch_num)
     lib.progpow_hash(result, self.contexts[epoch_num], header_height, hh,  nonce) 
     return bytes(result.final_hash.bytes)
@@ -42,13 +42,13 @@ class ProgPowHandler:
     hh = bytes_to_hash256(header_hash)
     boundary = bytes_to_hash256(target)
     search_result = ffi.new("search_result*")
-    epoch_num = epoch_num(header_height)
+    epoch_num = get_epoch_num(header_height)
     self._check_context(epoch_num)
     nonce = start_nonce
     max_nonce = start_nonce+iterations
     while nonce<max_nonce:
       next_iter = step if nonce+step<max_nonce else max_nonce-nonce
-      lib.progpow_search_light(search_result, self.contexts[epoch_num], start_nonce, hh, boundary, start_nonce, next_iter)
+      lib.progpow_search_light(search_result, self.contexts[epoch_num], header_height, hh, boundary, start_nonce, next_iter)
       nonce+=next_iter
       if search_result.solution_found:
         break
@@ -56,3 +56,7 @@ class ProgPowHandler:
       return {'solution_found':True, 'nonce':search_result.nonce, 'final_hash':bytes(search_result.final_hash.bytes)}
     else:
       return {'solution_found':False}
+
+  def __del__(self):
+    while len(self.contexts):
+      self._destroy_oldest_context()
