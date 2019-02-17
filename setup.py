@@ -37,7 +37,7 @@ setup(
     cmdclass = {'install':InstallClass, 'bdist_wheel':BDistClass},
     distclass=Distribution,
     zip_safe=False,
-
+    include_package_data = True,
     classifiers=[
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
