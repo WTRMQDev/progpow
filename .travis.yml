@@ -4,6 +4,8 @@ python:
 - '3.4'
 - '3.5'
 - '3.6'
+services:
+  - docker
 env:
   global:
   - PYPI_USERNAME=WTRMQDev
