@@ -42,8 +42,8 @@ def build_clib():
     c_lib_dir = path.join(base_dir, "c_lib")
     c_files, cpp_files = glob.glob(path.join(c_lib_dir, '*.c')), glob.glob(path.join(c_lib_dir, '*.cpp'))
     subprocess.check_call(["gcc", '-fPIC', '-c',] + c_files, cwd=build_temp)
-    subprocess.check_call(["g++", '-fPIC', '-c'] + cpp_files, cwd=build_temp)
-    subprocess.check_call(["g++", '-fPIC', '-shared'] + glob.glob(path.join(build_temp, '*.o')) + [ '-o', 'libprogpow.so'], cwd=build_temp)
+    subprocess.check_call(["g++", '-fPIC', '-c', '-std=c++11'] + cpp_files, cwd=build_temp)
+    subprocess.check_call(["g++", '-fPIC', '-shared', '-std=c++11'] + glob.glob(path.join(build_temp, '*.o')) + [ '-o', 'libprogpow.so'], cwd=build_temp)
     subprocess.check_call(["cp", 'libprogpow.so', base_dir], cwd=build_temp)
 
 
