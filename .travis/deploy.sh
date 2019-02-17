@@ -17,7 +17,7 @@ else
 	# Only build wheels for the non experimental bundled version
 	if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
 		python -m pip install wheel
-		python setup.py bdist_wheel
+		python setup.py bdist_wheel sdist
 	fi
 fi
 
