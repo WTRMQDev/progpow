@@ -13,7 +13,7 @@ wget -q https://ftp.gnu.org/gnu/libtool/libtool-2.4.5.tar.gz && tar zxf libtool-
 
 # Compile wheels
 for PYBIN in /opt/python/*/bin; do
-	if [[ ${PYBIN} != *"cp26"* && ${PYBIN} != *"cp27"*]]; then
+	if [[ ${PYBIN} != *"cp26"* && ${PYBIN} != *"cp27"* ]]; then
 	${PYBIN}/pip wheel /io/ -w wheelhouse/
     fi
 done
