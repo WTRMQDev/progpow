@@ -24,7 +24,7 @@ before_install:
 install:
 - python setup.py bdist_wheel
 script:
-- source .travis/run_tests.sh
+- bash .travis/run_tests.sh
 deploy:
   provider: script
   skip_cleanup: true
