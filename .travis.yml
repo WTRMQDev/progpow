@@ -22,4 +22,6 @@ before_install:
 - source .travis/install.sh
 install:
 - python setup.py bdist_wheel
+script:
+- source .travis/run_tests.sh
 
