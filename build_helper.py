@@ -18,7 +18,9 @@ except OSError as e:
   if e.errno != errno.EEXIST:
     raise
 
-
+def ensure_dir(path):
+  if not os.path.exists(path): 
+        os.makedirs(self.path)
 
 def has_system_lib():
     ffi = FFI()
@@ -55,6 +57,7 @@ def install():
         place = lib_dir.split(";")[0]
     if not place:
       place = '/usr/local/lib/' #TODO win and mac
+    ensure_dir(place)
     subprocess.check_call(["cp", 'libprogpow.so', place], cwd=base_dir)
 
 def ensure_local():
