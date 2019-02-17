@@ -9,7 +9,7 @@ rm -rf build dist
 mkdir dist
 
 python setup.py bdist_wheel
-
+rm dist/*
 # On linux we want to build `manylinux1` wheels. See:
 if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
 	docker run --rm -v $(pwd):/io ${WHEELBUILDER_IMAGE} /io/.travis/build-linux-wheels.sh
