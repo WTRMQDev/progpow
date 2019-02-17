@@ -21,5 +21,5 @@ addons:
 before_install:
 - source .travis/install.sh
 install:
-- python setup.py bdist_wheel
+- sudo python setup.py bdist_wheel
 
