@@ -58,7 +58,11 @@ def install():
     if not place:
       place = '/usr/local/lib/' #TODO win and mac
     ensure_dir(place)
-    subprocess.check_call(["cp", 'libprogpow.so', place], cwd=base_dir)
+    try:
+      subprocess.check_call(["cp", 'libprogpow.so', place], cwd=base_dir)
+    except: #CalledProcessError TODO
+      subprocess.check_call(['sudo', "cp", 'libprogpow.so', place], cwd=base_dir)
+      
 
 def ensure_local():
   if not has_local_lib():
