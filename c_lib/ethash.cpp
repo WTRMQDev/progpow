@@ -387,6 +387,16 @@ ethash_hash256 ethash_calculate_epoch_seed(int epoch_number) noexcept
     return epoch_seed;
 }
 
+void ethash_initialise_epoch_seed(ethash_hash256* epoch_seed, int epoch_number) noexcept
+{
+    *epoch_seed = ethash_calculate_epoch_seed(epoch_number);
+}
+
+int find_epoch_number_by_seed(ethash_hash256* seed) noexcept
+{
+   return find_epoch_number(*seed);
+}
+
 int ethash_calculate_light_cache_num_items(int epoch_number) noexcept
 {
     static constexpr int item_size = sizeof(hash512);

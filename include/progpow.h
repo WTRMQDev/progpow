@@ -43,4 +43,6 @@ void ethash_search_light_till_result(result* res, epoch_context* context, hash25
 void progpow_hash(result* res, epoch_context* context, int block_number, hash256* header_hash,  uint64_t nonce); 
 void progpow_search_light(search_result* res, epoch_context* context, int block_number,
    hash256* header_hash, hash256* boundary, uint64_t start_nonce, size_t iterations);
+void ethash_initialise_epoch_seed(hash256* epoch_seed, int epoch_number);
+int find_epoch_number_by_seed(hash256* seed);
 

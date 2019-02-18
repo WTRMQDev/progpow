@@ -57,6 +57,15 @@ class ProgPowHandler:
     else:
       return {'solution_found':False}
 
+  def give_seed(self, header_height):
+    seed = ffi.new("hash256*")
+    lib.ethash_initialise_epoch_seed(seed, get_epoch_num(header_height))
+    return bytes(seed.bytes)
+
+  def get_epoch_by_seed(self, seed):
+    seed_hash = bytes_to_hash256(seed)
+    return lib.find_epoch_number_by_seed(seed_hash)
+
   def __del__(self):
     while len(self.contexts):
       self._destroy_oldest_context()
