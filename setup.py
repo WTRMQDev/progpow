@@ -16,12 +16,12 @@ class BDistClass(bdist_wheel):
 
 setup(
     name="progpow",
-    version="0.2",
+    version="0.3",
 
     description='FFI bindings to progpow clib',
-    url='https://github.com/',
-    author='',
-    author_email='',
+    url='https://github.com/WTRMQDev/progpow',
+    author='Crez Khansick',
+    author_email='TetsuwanAtomu@tuta.io',
     license='MIT',
 
     setup_requires=['cffi>=1.3.0', 'pytest-runner==2.6.2', 'wheel'],
