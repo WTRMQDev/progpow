@@ -11,7 +11,11 @@ def bytes_to_hash256(bts):
   return hash256
 
 class ProgPowHandler:
-  def __init__(self, max_contexts_num=1):
+  def __init__(self, max_contexts_num=1, version=None):
+    if not version:
+      warnings.warn("Default progpow versioning is deprecated. Version should be set explicitly", DeprecationWarning)
+      version='0.9.2'
+    self.version = version
     self.max_contexts_num = max_contexts_num
     self.contexts=OrderedDict()
 
