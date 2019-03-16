@@ -1,23 +1,24 @@
 from ._libprogpow import ffi, lib
 from collections import OrderedDict
 
-def get_epoch_num(block_num):
-  return block_num//lib.ETHASH_EPOCH_LENGTH
-
-def bytes_to_hash256(bts):
-  hash256 = ffi.new("hash256*")
-  for i in range(32):
-    hash256.bytes[i]=bts[i]
-  return hash256
-
 class ProgPowHandler:
   def __init__(self, max_contexts_num=1, version=None):
     if not version:
       warnings.warn("Default progpow versioning is deprecated. Version should be set explicitly", DeprecationWarning)
       version='0.9.2'
     self.version = version
+    self.ffi, self.lib = ffi, lib
     self.max_contexts_num = max_contexts_num
     self.contexts=OrderedDict()
+
+  def bytes_to_hash256(self, bts):
+    hash256 = self.ffi.new("hash256*")
+    for i in range(32):
+      hash256.bytes[i]=bts[i]
+    return hash256
+
+  def get_epoch_num(self, block_num):
+    return block_num//self.lib.ETHASH_EPOCH_LENGTH
 
   def _create_context(self, epoch_num):
     ctx = lib.ethash_create_epoch_context(epoch_num)
