@@ -30,13 +30,16 @@ class ProgPowHandler:
     while len(self.contexts)>self.max_contexts_num:
       self._destroy_oldest_context()
 
-  def hash(self, header_height, header_hash, nonce):
-    hh = bytes_to_hash256(header_hash)
-    result = ffi.new("result*")
-    epoch_num = get_epoch_num(header_height)
+  def hash_result(self, header_height, header_hash, nonce):
+    hh = self.bytes_to_hash256(header_hash)
+    result = self.ffi.new("result*")
+    epoch_num = self.get_epoch_num(header_height)
     self._check_context(epoch_num)
-    lib.progpow_hash(result, self.contexts[epoch_num], header_height, hh,  nonce) 
-    return bytes(result.final_hash.bytes)
+    self.lib.progpow_hash(result, self.contexts[epoch_num], header_height, hh,  nonce) 
+    return bytes(result.mix_hash.bytes), bytes(result.final_hash.bytes)
+
+  def hash(self, header_height, header_hash, nonce):
+    return self.hash_result(header_height, header_hash, nonce)[1]
     
   def light_search(self, header_height, header_hash, target, start_nonce = 0, iterations=0, step = 2**10):
     hh = bytes_to_hash256(header_hash)
