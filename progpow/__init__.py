@@ -1,4 +1,4 @@
-from ._libprogpow import ffi, lib
+from ._libprogpow0_9_2 import ffi as ffi0_9_2, lib as lib0_9_2
 from collections import OrderedDict
 
 class ProgPowHandler:
@@ -7,7 +7,7 @@ class ProgPowHandler:
       warnings.warn("Default progpow versioning is deprecated. Version should be set explicitly", DeprecationWarning)
       version='0.9.2'
     self.version = version
-    self.ffi, self.lib = ffi, lib
+    self.ffi, self.lib = ffi0_9_2, lib0_9_2
     self.max_contexts_num = max_contexts_num
     self.contexts=OrderedDict()
 
