@@ -2,10 +2,12 @@ from cffi import FFI
 from build_helper import absolute, ensure_system
 ensure_system()
 
-ffi = FFI()
+#0.9.2
+ffi0_9_2 = FFI()
 with open("include/progpow.h", 'rt') as h:
-    ffi.cdef(h.read())
+    ffi0_9_2.cdef(h.read())
 include_path = absolute("include/")
-ffi.set_source("_libprogpow", r'#include "progpow.h"', include_dirs = [include_path], libraries = ['progpow'])
+ffi0_9_2.set_source("_libprogpow0_9_2", r'#include "progpow.h"', include_dirs = [include_path], libraries = ['progpow0_9_2'])
 
-ffi.compile()
+ffi0_9_2.compile()
+

@@ -30,13 +30,12 @@ setup(
 
     packages=find_packages(),
     ext_package="progpow",
-    data_files = [('lib', ['libprogpow.so'])],
+    data_files = [('lib', ['libprogpow0_9_2.so'])],
     cffi_modules=[
-        "ffi.py:ffi"
+        "ffi.py:ffi0_9_2"
     ],
     cmdclass = {'install':InstallClass, 'bdist_wheel':BDistClass},
     distclass=Distribution,
-    zip_safe=False,
     include_package_data = True,
     classifiers=[
         "Intended Audience :: Developers",
@@ -47,6 +46,7 @@ setup(
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: Software Development :: Libraries",
         "Topic :: Security :: Cryptography"
-    ]
+    ],
+    zip_safe=False,
 
 )

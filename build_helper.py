@@ -5,6 +5,8 @@ import errno
 import subprocess
 import glob
 
+versions = ['0_9_2']
+
 def absolute(*paths):
     op = os.path
     return op.realpath(op.abspath(op.join(op.dirname(__file__), *paths)))
@@ -25,7 +27,8 @@ def ensure_dir(path):
 def has_system_lib():
     ffi = FFI()
     try:
-        ffi.dlopen("progpow")
+        for v in versions:
+          ffi.dlopen("progpow%s"%v)
         return True
     except OSError:
         if 'LIB_DIR' in os.environ:
@@ -38,15 +41,20 @@ def has_system_lib():
         return False
 
 def has_local_lib():
-  path.exists(path.join(base_dir, 'libprogpow.so'))
+  for v in versions:
+    if not path.exists(path.join(base_dir, 'libprogpow%s.so'%v)):
+      return False
+  return True
 
-def build_clib():    
-    c_lib_dir = path.join(base_dir, "c_lib")
-    c_files, cpp_files = glob.glob(path.join(c_lib_dir, '*.c')), glob.glob(path.join(c_lib_dir, '*.cpp'))
-    subprocess.check_call(["gcc", '-fPIC', '-c',] + c_files, cwd=build_temp)
-    subprocess.check_call(["g++", '-fPIC', '-c', '-std=c++11'] + cpp_files, cwd=build_temp)
-    subprocess.check_call(["g++", '-fPIC', '-shared', '-std=c++11'] + glob.glob(path.join(build_temp, '*.o')) + [ '-o', 'libprogpow.so'], cwd=build_temp)
-    subprocess.check_call(["cp", 'libprogpow.so', base_dir], cwd=build_temp)
+def build_clib():  
+    for v in versions:  
+      c_lib_dir = path.join(base_dir, "c_lib"+v)
+      c_files, cpp_files = glob.glob(path.join(c_lib_dir, '*.c')), glob.glob(path.join(c_lib_dir, '*.cpp'))
+      subprocess.check_call(["gcc", '-fPIC', '-c',] + c_files, cwd=build_temp)
+      subprocess.check_call(["g++", '-fPIC', '-c', '-std=c++11'] + cpp_files, cwd=build_temp)
+      subprocess.check_call(["g++", '-fPIC', '-shared', '-std=c++11'] + glob.glob(path.join(build_temp, '*.o')) + [ '-o', 'libprogpow%s.so'%v], cwd=build_temp)
+      subprocess.check_call(["cp", 'libprogpow%s.so'%v, base_dir], cwd=build_temp)
+      subprocess.check_call(["rm"]+glob.glob(path.join(build_temp, '*.o')), cwd=build_temp)
 
 
 def install():
@@ -58,10 +66,11 @@ def install():
     if not place:
       place = '/usr/local/lib/' #TODO win and mac
     ensure_dir(place)
-    try:
-      subprocess.check_call(["cp", 'libprogpow.so', place], cwd=base_dir)
-    except: #CalledProcessError TODO
-      subprocess.check_call(['sudo', "cp", 'libprogpow.so', place], cwd=base_dir)
+    for v in versions:
+      try:
+        subprocess.check_call(["cp", 'libprogpow%s.so'%v, place], cwd=base_dir)
+      except: #CalledProcessError TODO
+        subprocess.check_call(['sudo', "cp", 'libprogpow%s.so'%v, place], cwd=base_dir)
       
 
 def ensure_local():
