@@ -30,9 +30,9 @@ setup(
 
     packages=find_packages(),
     ext_package="progpow",
-    data_files = [('lib', ['libprogpow0_9_2.so'])],
+    data_files = [('lib', ['libprogpow0_9_2.so','libprogpow0_9_3.so'])],
     cffi_modules=[
-        "ffi.py:ffi0_9_2"
+        "ffi.py:ffi0_9_2", "ffi.py:ffi0_9_3"
     ],
     cmdclass = {'install':InstallClass, 'bdist_wheel':BDistClass},
     distclass=Distribution,

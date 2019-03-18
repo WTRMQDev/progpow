@@ -5,7 +5,7 @@ import errno
 import subprocess
 import glob
 
-versions = ['0_9_2']
+versions = ['0_9_2', '0_9_3']
 
 def absolute(*paths):
     op = os.path
