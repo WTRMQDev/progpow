@@ -1,15 +1,15 @@
-#About
+# About
 Python progpow wrapper. Avaibale on [PyPI](https://pypi.org/project/progpow).
 
 Currently supports only python3+ and linux.
 
-#Progpow versions 
+# Progpow versions 
 Currently support 0.9.2 and 0.9.3 progpow versions. BitcoinInterest progpow version is not supported.
 
-#Install
+# Install
 `pip3 install progpow`
 
-#Interface 
+# Interface 
 ```python
 import progpow
 
