@@ -22,6 +22,7 @@ done
 # Adjust wheel tags
 mkdir out
 for whl in wheelhouse/progpow*.whl; do
+    auditwheel show $whl;
     auditwheel repair $whl -w out
 done
 

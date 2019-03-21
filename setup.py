@@ -16,7 +16,7 @@ class BDistClass(bdist_wheel):
 
 setup(
     name="progpow",
-    version="0.3",
+    version="0.4",
 
     description='FFI bindings to progpow clib',
     url='https://github.com/WTRMQDev/progpow',
