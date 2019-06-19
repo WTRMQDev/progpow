@@ -29,7 +29,7 @@ cd /
 mkdir out
 for whl in wheelhouse/progpow*.whl; do
     auditwheel show $whl;
-    auditwheel repair $whl -w out
+    auditwheel repair $whl --plat manylinux2010_x86_64 -w out
 done
 
 cp out/*.whl /io/dist
