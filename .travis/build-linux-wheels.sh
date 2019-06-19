@@ -14,10 +14,11 @@ yum install -y pkg-config libffi libffi-devel
 # Compile wheels
 cp -r /io /local
 mkdir wheelhouse
+cd /local
+rm libprogpow*.so _libprogpow0_9_*.o _libprogpow0_9_*.c
 for PYBIN in /opt/python/*/bin; do
 	if [[ ${PYBIN} != *"cp26"* && ${PYBIN} != *"cp27"* ]]; then
         ${PYBIN}/pip install cffi
-        cd /local
 	${PYBIN}/python setup.py bdist_wheel
         mv dist/progpow*.whl /wheelhouse
     fi
